@@ -5,19 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class CharacterViewModel: ViewModel() {
-    val characters = mutableStateListOf<CharacterResponse>()
+class CharacterViewModel : ViewModel() {
+    private val _characters = mutableStateListOf<CharacterResponse>()
+    val characters: List<CharacterResponse> = _characters
 
-    fun loadCharacters(){
+    fun loadCharactersList() {
         viewModelScope.launch {
-            for (id in 1..10)
-            try {
-                val character = APIClient.api.getCharacters(id)
-                characters.add(character)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            for (id in 1..50)
+                try {
+                    val character = APIClient.api.getCharacters(id)
+                    _characters.add(character)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
         }
     }
-
 }
