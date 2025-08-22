@@ -11,11 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun CharacterListScreen(viewModel: CharacterViewModel = viewModel()) {
+fun CharacterListScreen(
+    navController: NavController,
+    viewModel: CharacterViewModel = viewModel(),
+) {
     LaunchedEffect(Unit) {
-        viewModel.loadCharacters()
+        viewModel.loadCharactersList()
     }
 
     LazyColumn {
@@ -23,7 +27,8 @@ fun CharacterListScreen(viewModel: CharacterViewModel = viewModel()) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(8.dp),
+                onClick = { navController.navigate("detailScreen/${character.data.id}") }
             ) {
                 Text(
                     text = character.data.name ?: "None",
